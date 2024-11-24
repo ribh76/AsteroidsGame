@@ -16,8 +16,8 @@ public void draw()
 background(0);
 
   // Draw stars
-  for (Star s : stars) {
-    s.show();
+ for (int i = 0; i < stars.length; i++) {
+    stars[i].show();
   }
 
   // Accelerate if "W" is pressed
