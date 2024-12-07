@@ -1,39 +1,74 @@
+import java.util.*;  // Import all util 
+
 Spaceship ship;
-Star[] stars;
-void setup() 
-{
+ArrayList<Asteroid> asteroids;  // ArrayList to store asteroids
+boolean accelerating = false;
+boolean reversing = false;
+
+
+ArrayList<Star> stars;  // To store stars
+
+void setup() {
   size(800, 800);
+  
+  // Initialize the spaceship
   ship = new Spaceship();
-  stars = new Star[100];
-
-  // Initialize stars with random positions
-  for (int i = 0; i < stars.length; i++) {
-    stars[i] = new Star();
+  
+  // Initialize asteroids
+  asteroids = new ArrayList<Asteroid>();
+  for (int i = 0; i < 10; i++) {
+    asteroids.add(new Asteroid());
   }
-public void draw() 
-{
-  //your code here
-background(0);
+  
+  // Initialize stars
+  stars = new ArrayList<Star>();
+  for (int i = 0; i < 100; i++) {
+    stars.add(new Star());
+  }
+}
 
-  // Draw stars
- for (int i = 0; i < stars.length; i++) {
-    stars[i].show();
+void draw() {
+  background(0);
+  
+  // Display stars
+  for (Star star : stars) {
+    star.show();
+  }
+
+  // Draw and move asteroids
+  for (int i = 0; i < asteroids.size(); i++) {
+    Asteroid asteroid = asteroids.get(i);
+    asteroid.move();
+    asteroid.show();
   }
 
   // Accelerate if "W" is pressed
   if (accelerating) {
-    ship.accelerate(0.05); // Smooth forward acceleration
+    ship.accelerate(0.1);  // Adjust speed for better control
   }
 
   // Reverse if "S" is pressed
   if (reversing) {
-    ship.reverse(); // Smooth reverse movement
+    ship.reverse();
   }
 
   // Move and show the spaceship
   ship.move();
   ship.show();
+
+  // Check for collisions with asteroids
+  checkCollisions();
+
+  // Check if the game is won
+  if (asteroids.isEmpty()) {
+    textSize(32);
+    fill(255);
+    textAlign(CENTER);
+    text("You Win!", width / 2, height / 2);
+    noLoop();  // Stop the game
+  }
 }
+
 void keyPressed() {
   if (key == 'w' || key == 'W') {
     accelerating = true;
@@ -58,5 +93,15 @@ void keyReleased() {
   }
   if (key == 's' || key == 'S') {
     reversing = false;
+  }
+}
+
+void checkCollisions() {
+  for (int i = asteroids.size() - 1; i >= 0; i--) {
+    Asteroid asteroid = asteroids.get(i);
+    // Check if spaceship is colliding with asteroid
+    if (dist((float)ship.myCenterX, (float)ship.myCenterY, (float)asteroid.myCenterX, (float)asteroid.myCenterY) < 30) { // Collision detection
+      asteroids.remove(i);  // Remove the asteroid from the ArrayList
+    }
   }
 }
