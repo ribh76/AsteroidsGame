@@ -5,16 +5,28 @@ class Asteroid extends Floater {
     corners = 10;
     xCorners = new int[10];
     yCorners = new int[10];
-    myColor = color(255, 0, 0);  // Red asteroids for visibility
+    myColor = color(139, 69, 19);  // Brown asteroids 
     myCenterX = Math.random() * width;
     myCenterY = Math.random() * height;
-    myXspeed = Math.random() * 2 - 1;  // Random speed in x direction
-    myYspeed = Math.random() * 2 - 1;  // Random speed in y direction
+    myXspeed = Math.random() * 2 - 1;
+    myYspeed = Math.random() * 2 - 1;
     myPointDirection = Math.random() * 360;
-    rotationSpeed = Math.random() * 2 - 1; // Random turn speed
-    // Generate a rough "rocky" shape
+    rotationSpeed = Math.random() * 2 - 1; // Random turning speed
+    
     for (int i = 0; i < corners; i++) {
       xCorners[i] = (int) (Math.random() * 20 - 10);
       yCorners[i] = (int) (Math.random() * 20 - 10);
     }
   }
+
+  public void move() {
+    super.move();
+    myPointDirection += rotationSpeed; // Rotate the asteroid randomly as it moves
+  }
+
+  public void show() {
+    fill(myColor);
+    stroke(0);
+    super.show();
+  }
+}
