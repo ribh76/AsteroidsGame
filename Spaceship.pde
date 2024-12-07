@@ -1,14 +1,12 @@
-class Spaceship extends Floater  
-{   
-   private double decelerationRate = 0.98; // Gradual deceleration
-  private double reverseRate = -0.05;    // Reverse acceleration
+class Spaceship extends Floater {
+  private double decelerationRate = 0.98; 
+  private double reverseRate = -0.05;    
 
-  // Constructor
   Spaceship() {
-    corners = 3; // Triangular shape
-    xCorners = new int[]{-15, 15, 0};  // Adjusted shape: point is forward
-    yCorners = new int[]{10, 10, -15}; // Long side is the back
-    myColor = color(255, 255, 255);    // White triangle
+    corners = 3; 
+    xCorners = new int[]{-15, 15, 0};  
+    yCorners = new int[]{10, 10, -15}; 
+    myColor = color(255, 255, 255);    
     myCenterX = width / 2;
     myCenterY = height / 2;
     myXspeed = 0;
@@ -16,15 +14,12 @@ class Spaceship extends Floater
     myPointDirection = 0;
   }
 
-  //@Override
   public void move() {
-    myXspeed *= decelerationRate; // Gradual deceleration
+    myXspeed *= decelerationRate; 
     myYspeed *= decelerationRate;
-
-    super.move(); // Call the parent class's move() method
+    super.move(); 
   }
 
-  // Hyperspace: stop movement, randomize position and direction
   public void hyperspace() {
     myXspeed = 0;
     myYspeed = 0;
@@ -33,10 +28,9 @@ class Spaceship extends Floater
     myPointDirection = Math.random() * 360;
   }
 
-  // Reverse acceleration
   public void reverse() {
     double dRadians = myPointDirection * (Math.PI / 180);
-    myXspeed += (reverseRate * Math.cos(dRadians));
-    myYspeed += (reverseRate * Math.sin(dRadians));
+    myXspeed += reverseRate * Math.cos(dRadians);
+    myYspeed += reverseRate * Math.sin(dRadians);
   }
 }
