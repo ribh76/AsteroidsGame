@@ -1,35 +1,37 @@
-import java.util.*;  // Import all util 
+import java.util.*; // Import all util
 
 Spaceship ship;
-ArrayList<Asteroid> asteroids;  // ArrayList to store asteroids
+ArrayList<Asteroid> asteroids; // ArrayList to store asteroids
+ArrayList<Bullet> bullets; // ArrayList to store bullets
 boolean accelerating = false;
 boolean reversing = false;
-
-
-ArrayList<Star> stars;  // To store stars
+ArrayList<Star> stars; // To store stars
 
 void setup() {
   size(800, 800);
-  
+
   // Initialize the spaceship
   ship = new Spaceship();
-  
+
   // Initialize asteroids
   asteroids = new ArrayList<Asteroid>();
   for (int i = 0; i < 10; i++) {
     asteroids.add(new Asteroid());
   }
-  
+
   // Initialize stars
   stars = new ArrayList<Star>();
   for (int i = 0; i < 100; i++) {
     stars.add(new Star());
   }
+
+  // Initialize bullets
+  bullets = new ArrayList<Bullet>();
 }
 
 void draw() {
   background(0);
-  
+
   // Display stars
   for (Star star : stars) {
     star.show();
@@ -44,7 +46,7 @@ void draw() {
 
   // Accelerate if "W" is pressed
   if (accelerating) {
-    ship.accelerate(0.1);  // Adjust speed for better control
+    ship.accelerate(0.1); // Adjust speed for better control
   }
 
   // Reverse if "S" is pressed
@@ -56,6 +58,18 @@ void draw() {
   ship.move();
   ship.show();
 
+  // Draw and move bullets
+  for (int i = bullets.size() - 1; i >= 0; i--) {
+    Bullet bullet = bullets.get(i);
+    bullet.move();
+    bullet.show();
+
+    // Remove bullet if it moves off-screen
+    if (bullet.isOffScreen()) {
+      bullets.remove(i);
+    }
+  }
+
   // Check for collisions with asteroids
   checkCollisions();
 
@@ -65,7 +79,7 @@ void draw() {
     fill(255);
     textAlign(CENTER);
     text("You Win!", width / 2, height / 2);
-    noLoop();  // Stop the game
+    noLoop(); // Stop the game
   }
 }
 
@@ -84,6 +98,9 @@ void keyPressed() {
   }
   if (key == 'e' || key == 'E') {
     ship.hyperspace(); // Hyperspace functionality
+  }
+  if (key == ' ') { // Space bar to shoot
+    bullets.add(new Bullet(ship));
   }
 }
 
