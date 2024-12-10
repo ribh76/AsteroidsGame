@@ -100,8 +100,18 @@ void checkCollisions() {
   for (int i = asteroids.size() - 1; i >= 0; i--) {
     Asteroid asteroid = asteroids.get(i);
     // Check if spaceship is colliding with asteroid
-    if (dist((float)ship.myCenterX, (float)ship.myCenterY, (float)asteroid.myCenterX, (float)asteroid.myCenterY) < 30) { // Collision detection
-      asteroids.remove(i);  // Remove the asteroid from the ArrayList
+    if (dist((float) ship.myCenterX, (float) ship.myCenterY, (float) asteroid.myCenterX, (float) asteroid.myCenterY) < 30) { // Collision detection
+      asteroids.remove(i); // Remove the asteroid from the ArrayList
+    }
+
+    // Check if a bullet is colliding with an asteroid
+    for (int j = bullets.size() - 1; j >= 0; j--) {
+      Bullet bullet = bullets.get(j);
+      if (dist((float) bullet.myCenterX, (float) bullet.myCenterY, (float) asteroid.myCenterX, (float) asteroid.myCenterY) < 20) {
+        asteroids.remove(i);
+        bullets.remove(j);
+        break;
+      }
     }
   }
 }
